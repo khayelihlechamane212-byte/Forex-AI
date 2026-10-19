@@ -1,128 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Forex AI Pro - All Currencies</title>
+<title>Forex AI Pro</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#070a10;color:#e6e8eb;font-family:sans-serif}
-header{position:sticky;top:0;z-index:10;background:#11161f;border-bottom:1px solid #1f2a38;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:900;color:#2ea043;display:flex;gap:8px;align-items:center}
-.live-dot{width:8px;height:8px;background:#2ea043;border-radius:50%;animation:blink 1s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.badge{background:#2ea043;color:#fff;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700}
+header{background:#11161f;border-bottom:1px solid #1f2a38;padding:14px;display:flex;justify-content:space-between}
+.logo{color:#2ea043;font-weight:900}
+.badge{background:#2ea043;color:#fff;padding:5px 10px;border-radius:20px;font-size:11px}
 .container{max-width:480px;margin:0 auto}
-.card{background:#151b26;border:1px solid #1f2a38;border-radius:16px;padding:18px;margin:14px}
-.price{font-size:38px;font-weight:900}
-.change{padding:4px 8px;border-radius:8px;font-size:12px;font-weight:700}
-.up{background:rgba(46,160,67,.15);color:#2ea043}
-.down{background:rgba(248,81,73,.15);color:#f85149}
-.signal{font-size:56px;font-weight:950;margin:10px 0;text-align:center}
+.card{background:#151b26;border:1px solid #1f2a38;border-radius:14px;padding:14px;margin:12px}
+.price{font-size:34px;font-weight:900}
+.signal{font-size:48px;font-weight:900;text-align:center;margin:10px}
 .buy{color:#2ea043}.sell{color:#f85149}
-.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
-.stat{background:#0d121c;border:1px solid #1c2636;border-radius:12px;padding:12px;text-align:center}
-.stat-label{font-size:10px;color:#8b949e;margin-bottom:4px}
-.stat-val{font-size:15px;font-weight:800}
-.chart-wrap{height:320px;border-radius:12px;overflow:hidden;background:#0d121c;border:1px solid #1c2636;margin-top:12px}
-.pairs{display:flex;gap:8px;overflow-x:auto;padding:10px 14px}
-.pair{white-space:nowrap;padding:8px 14px;border-radius:20px;background:#151b26;border:1px solid #1f2a38;font-size:12px;font-weight:600;cursor:pointer}
-.pair.active{background:#2ea043;color:white;border-color:#2ea043}
-.btn{width:100%;padding:14px;background:#2ea043;color:white;border:none;border-radius:12px;font-weight:800;margin-top:14px;cursor:pointer}
+.pairs{display:flex;gap:6px;overflow-x:auto;padding:8px}
+.pair{padding:6px 12px;border-radius:20px;background:#151b26;border:1px solid #1f2a38;font-size:11px}
+.pair.active{background:#2ea043;color:#fff}
+.btn{width:100%;padding:12px;background:#2ea043;color:#fff;border:none;border-radius:10px;font-weight:800;margin-top:10px}
+.tp3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.tp{padding:8px;border-radius:8px;text-align:center;font-weight:700;font-size:12px}
+.stat{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
 </style>
 </head>
 <body>
-<header><div class="logo"><div class="live-dot"></div> FOREX AI PRO</div><div class="badge" id="liveBadge">LIVE XAU/USD</div></header>
+<header><div class="logo">● FOREX AI</div><div class="badge" id="bd">LIVE XAU/USD</div></header>
 <div class="container">
 <div class="pairs">
-<div class="pair active" onclick="setPair('XAUUSD')">XAU/USD</div>
-<div class="pair" onclick="setPair('EURUSD')">EUR/USD</div>
-<div class="pair" onclick="setPair('GBPUSD')">GBP/USD</div>
-<div class="pair" onclick="setPair('USDJPY')">USD/JPY</div>
-<div class="pair" onclick="setPair('USDZAR')">USD/ZAR</div>
-<div class="pair" onclick="setPair('EURZAR')">EUR/ZAR</div>
-<div class="pair" onclick="setPair('AUDUSD')">AUD/USD</div>
-<div class="pair" onclick="setPair('BTCUSD')">BTC/USD</div>
+<div class="pair active" onclick="sp('XAUUSD',this)">XAU/USD</div>
+<div class="pair" onclick="sp('EURUSD',this)">EUR/USD</div>
+<div class="pair" onclick="sp('GBPUSD',this)">GBP/USD</div>
+<div class="pair" onclick="sp('USDZAR',this)">USD/ZAR</div>
+<div class="pair" onclick="sp('EURZAR',this)">EUR/ZAR</div>
+<div class="pair" onclick="sp('BTCUSD',this)">BTC/USD</div>
 </div>
+
+<div class="card" style="text-align:center;border:2px dashed #1f6feb" onclick="document.getElementById('f').click()">
+<input type="file" id="f" accept="image/*" hidden onchange="gs();alert('MT5 chart uploaded!')">
+<div>📸 UPLOAD MT5 SCREENSHOT</div>
+<div style="font-size:10px;color:#8b949e">Tap to upload</div>
+</div>
+
 <div class="card">
-<div style="display:flex;justify-content:space-between;color:#8b949e;font-size:12px;margin-bottom:12px"><span id="pairName">GOLD PRICE</span><span id="time">Loading...</span></div>
-<div style="display:flex;align-items:end;gap:12px"><div class="price" id="price">$2,650.81</div><div class="change up" id="change">+0.42%</div></div>
-<div class="chart-wrap" id="tvChart"></div>
+<div style="display:flex;justify-content:space-between;font-size:11px;color:#8b949e">
+<span id="pn">XAU/USD</span><span id="tm"></span></div>
+<div class="price" id="pr">$2650.00</div>
+<div id="ch" style="height:280px;background:#0d121c;border-radius:10px;margin-top:10px"></div>
 </div>
+
 <div class="card">
-<div style="display:flex;justify-content:space-between;color:#8b949e;font-size:12px"><span>AI SIGNAL ENGINE</span><span style="color:#2ea043">LIVE</span></div>
-<div style="text-align:center;padding:10px 0">
-<div style="font-size:12px;color:#8b949e">NEXT MOVE</div>
-<div class="signal buy" id="signal">BUY</div>
-<div style="width:100%;height:6px;background:#0d121c;border-radius:10px;overflow:hidden"><div id="confBar" style="height:100%;width:88%;background:#2ea043"></div></div>
+<div class="signal buy" id="sg">BUY</div>
+<div class="tp3">
+<div class="tp" style="background:rgba(248,81,73,.15);color:#f85149"><div style="font-size:9px">SL</div><div id="sl">$2633</div></div>
+<div class="tp" style="background:rgba(46,160,67,.15);color:#2ea043"><div style="font-size:9px">TP1</div><div id="tp1">$2663</div></div>
+<div class="tp" style="background:rgba(31,111,235,.15);color:#1f6feb"><div style="font-size:9px">TP2</div><div id="tp2">$2680</div></div>
 </div>
-<div class="stats">
-<div class="stat"><div class="stat-label">Confidence</div><div class="stat-val" id="conf">88%</div></div>
-<div class="stat"><div class="stat-label">Trend</div><div class="stat-val" id="trend">BULLISH</div></div>
-<div class="stat"><div class="stat-label">RSI</div><div class="stat-val" id="rsi">62.4</div></div>
+<div class="stat">
+<div id="cf">88%</div><div id="tr">BULL</div><div id="rs">62</div>
 </div>
-<div class="stats">
-<div class="stat"><div class="stat-label">Support</div><div class="stat-val" id="sup">$2,642</div></div>
-<div class="stat"><div class="stat-label">Resistance</div><div class="stat-val" id="res">$2,668</div></div>
-<div class="stat"><div class="stat-label">Win Rate</div><div class="stat-val" style="color:#2ea043">87.3%</div></div>
-</div>
-<button class="btn" onclick="generateSignal()">GENERATE NEW SIGNAL</button>
+<button class="btn" onclick="gs()">⚡ NEW SIGNAL</button>
 </div>
 </div>
+
 <script src="https://s3.tradingview.com/tv.js"></script>
 <script>
-let currentPair='XAUUSD';
-let basePrice=2650.81;
-function loadTV(s){
-document.getElementById('tvChart').innerHTML='';
-let sym='OANDA:XAUUSD';
-if(s==='EURUSD') sym='FX:EURUSD';
-if(s==='GBPUSD') sym='FX:GBPUSD';
-if(s==='USDJPY') sym='FX:USDJPY';
-if(s==='USDZAR') sym='FX:USDZAR';
-if(s==='EURZAR') sym='FX:EURZAR';
-if(s==='AUDUSD') sym='FX:AUDUSD';
-if(s==='BTCUSD') sym='BINANCE:BTCUSD';
-new TradingView.widget({"autosize":true,"symbol":sym,"interval":"15","theme":"dark","style":"1","toolbar_bg":"#0d121c","enable_publishing":false,"hide_top_toolbar":true,"container_id":"tvChart"});
+let cp='XAUUSD',bp=2650;
+function ld(s){
+document.getElementById('ch').innerHTML='';
+let sy=s=='BTCUSD'?'BINANCE:BTCUSD':s.includes('ZAR')?'FX_IDC:'+s:'FX:'+s;
+if(s=='XAUUSD')sy='OANDA:XAUUSD';
+new TradingView.widget({autosize:true,symbol:sy,interval:"15",theme:"dark",style:"1",container_id:"ch",hide_top_toolbar:true})
 }
-function setPair(p){
-currentPair=p;
-document.querySelectorAll('.pair').forEach(function(e){e.classList.remove('active')});
-event.target.classList.add('active');
-document.getElementById('liveBadge').innerText='LIVE '+p;
-document.getElementById('pairName').innerText=p+' PRICE';
-if(p==='XAUUSD') basePrice=2650;
-if(p==='EURUSD') basePrice=1.0845;
-if(p==='GBPUSD') basePrice=1.2720;
-if(p==='USDJPY') basePrice=149.50;
-if(p==='USDZAR') basePrice=18.45;
-if(p==='EURZAR') basePrice=19.98;
-if(p==='AUDUSD') basePrice=0.6620;
-if(p==='BTCUSD') basePrice=67234;
-loadTV(p);
-generateSignal();
+function sp(p,e){
+cp=p;
+bp=p=='XAUUSD'?2650:p=='EURUSD'?1.0845:p=='GBPUSD'?1.272:p=='USDZAR'?18.45:p=='EURZAR'?19.98:67234;
+document.querySelectorAll('.pair').forEach(x=>x.classList.remove('active'));
+e.classList.add('active');
+document.getElementById('bd').innerText='LIVE '+p;
+document.getElementById('pn').innerText=p;
+ld(p);gs()
 }
-function generateSignal(){
-let isBuy=Math.random()>0.4;
-let conf=Math.floor(78+Math.random()*17);
-let rsi=(45+Math.random()*30).toFixed(1);
-let trend=isBuy?'BULLISH':'BEARISH';
-let el=document.getElementById('signal');
-el.innerText=isBuy?'BUY':'SELL';
-el.className=isBuy?'signal buy':'signal sell';
-document.getElementById('conf').innerText=conf+'%';
-document.getElementById('confBar').style.width=conf+'%';
-document.getElementById('trend').innerText=trend;
-document.getElementById('rsi').innerText=rsi;
-document.getElementById('sup').innerText='$'+(basePrice*0.997).toFixed(2);
-document.getElementById('res').innerText='$'+(basePrice*1.006).toFixed(2);
+function gs(){
+let b=Math.random()>0.4;
+let el=document.getElementById('sg');
+el.innerText=b?'BUY':'SELL';
+el.className=b?'signal buy':'signal sell';
+document.getElementById('cf').innerText=Math.floor(78+Math.random()*16)+'%';
+document.getElementById('tr').innerText=b?'BULLISH':'BEARISH';
+document.getElementById('rs').innerText=(45+Math.random()*25).toFixed(1);
+let sl=b?bp*0.994:bp*1.006;
+let tp1=b?bp*1.005:bp*0.995;
+let tp2=b?bp*1.012:bp*0.988;
+document.getElementById('sl').innerText='$'+sl.toFixed(2);
+document.getElementById('tp1').innerText='$'+tp1.toFixed(2);
+document.getElementById('tp2').innerText='$'+tp2.toFixed(2);
 }
-setInterval(function(){
-let vol=(Math.random()-0.5)*2;
-basePrice=basePrice+vol;
-let display='$'+basePrice.toFixed(2);
-document.getElementById('price').innerText=display;
-let ch=(Math.random()-0.5)*0.8;
-let chEl=document.getElementById('change');
-chEl.innerText=(ch>0?'+':'')+ch.toFixed(2)+'%';
-chEl.className=ch>0?'change up':'change down';
+setInterval(()=>{
+let vol=cp=='BTCUSD'?(Math.random()-0.5)*20:cp=='XAUUSD'?(Math.random()-0.5)*0.8:(Math.random()-0.5)*0.0008;
+bp+=vol;
+document.getElementById('pr').innerText='$'+bp.toFixed(cp=='EURUSD'||cp=='GBPUSD'?4:2);
+document.getElementById('tm').innerText=new Date().toLocaleTimeString();
+},2000);
+ld('XAUUSD');gs();
+</script>
+</body>
+</html>
