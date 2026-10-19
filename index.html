@@ -31,4 +31,73 @@ header{position:sticky;top:0;z-index:10;background:#11161f;border-bottom:1px sol
 </style>
 </head>
 <body>
-<header><div class="logo"><div class="live-dot"></div> FOREX AI PRO</div><div class="badge" id="liveBadge">LIVE X
+<header><div class="logo"><div class="live-dot"></div> FOREX AI PRO</div><div class="badge" id="liveBadge">U/USD</div></header>
+<div class="container">
+<div class="pairs">
+<div class="pair active" onclick="setPair('XAUUSD')">XAU/USD GOLD</div>
+<div class="pair" onclick="setPair('EURUSD')">EUR/USD</div>
+<div class="pair" onclick="setPair('GBPUSD')">GBP/USD</div>
+<div class="pair" onclick="setPair('BTCUSD')">BTC/USD</div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;color:#8b949e;font-size:12px;margin-bottom:12px"><span id="pairName">GOLD PRICE</span><span id="time">Loading...</span></div>
+<div style="display:flex;align-items:end;gap:12px"><div class="price" id="price">$2,650.81</div><div class="change up" id="change">+0.42%</div></div>
+<div class="chart-wrap" id="tvChart"></div>
+</div>
+<div class="card">
+<div style="display:flex;justify-content:space-between;color:#8b949e;font-size:12px"><span>AI SIGNAL ENGINE</span><span style="color:#2ea043">● LIVE</span></div>
+<div style="text-align:center;padding:10px 0">
+<div style="font-size:12px;color:#8b949e">NEXT MOVE</div>
+<div class="signal buy" id="signal">BUY</div>
+<div style="width:100%;height:6px;background:#0d121c;border-radius:10px;overflow:hidden"><div id="confBar" style="height:100%;width:88%;background:#2ea043"></div></div>
+</div>
+<div class="stats">
+<div class="stat"><div class="stat-label">Confidence</div><div class="stat-val" id="conf">88%</div></div>
+<div class="stat"><div class="stat-label">Trend</div><div class="stat-val" id="trend">BULLISH</div></div>
+<div class="stat"><div class="stat-label">RSI</div><div class="stat-val" id="rsi">62.4</div></div>
+</div>
+<div class="stats">
+<div class="stat"><div class="stat-label">Support</div><div class="stat-val" id="sup">$2,642</div></div>
+<div class="stat"><div class="stat-label">Resistance</div><div class="stat-val" id="res">$2,668</div></div>
+<div class="stat"><div class="stat-label">Win Rate</div><div class="stat-val" style="color:#2ea043">87.3%</div></div>
+</div>
+<button class="btn" onclick="generateSignal()">⚡ GENERATE NEW SIGNAL</button>
+</div>
+</div>
+<script src="https://s3.tradingview.com/tv.js"></script>
+<script>
+let currentPair='XAUUSD',basePrice=2650.81;
+function loadTV(s){
+document.getElementById('tvChart').innerHTML='';
+new TradingView.widget({"autosize":true,"symbol":s==="XAUUSD"?"OANDA:XAUUSD":s==="BTCUSD"?"BINANCE:BTCUSD":s==="EURUSD"?"FX:EURUSD":"FX:GBPUSD","interval":"15","theme":"dark","style":"1","toolbar_bg":"#0d121c","enable_publishing":false,"hide_top_toolbar":true,"container_id":"tvChart"});
+}
+function setPair(p){
+currentPair=p;
+document.querySelectorAll('.pair').forEach(e=>e.classList.remove('active'));
+event.target.classList.add('active');
+document.getElementById('liveBadge').innerText='LIVE '+p;
+document.getElementById('pairName').innerText=p+' PRICE';
+if(p==='XAUUSD')basePrice=2650;if(p==='EURUSD')basePrice=1.0845;if(p==='GBPUSD')basePrice=1.2720;if(p==='BTCUSD')basePrice=67234;
+loadTV(p);generateSignal();
+}
+function generateSignal(){
+let isBuy=Math.random()>0.38;let conf=Math.floor(78+Math.random()*17);let rsi=(45+Math.random()*30).toFixed(1);
+let trend=isBuy?(rsi>60?'STRONG BULLISH':'BULLISH'):(rsi<45?'STRONG BEARISH':'BEARISH');
+let el=document.getElementById('signal');el.innerText=isBuy?'BUY':'SELL';el.className=isBuy?'signal buy':'signal sell';
+document.getElementById('conf').innerText=conf+'%';document.getElementById('confBar').style.width=conf+'%';
+document.getElementById('trend').innerText=trend;document.getElementById('rsi').innerText=rssi;
+document.getElementById('sup').innerText='$'+(basePrice*0.997).toFixed(currentPair==='XAUUSD'?0:4);
+document.getElementById('res').innerText='$'+(basePrice*1.006).toFixed(currentPair==='XAUUSD'?0:4);
+}
+setInterval(()=>{
+let vol=currentPair==='BTCUSD'?(Math.random()-0.5)*200:currentPair==='XAUUSD'?(Math.random()-0.5)*3:(Math.random()-0.5)*0.002;
+basePrice+=vol;
+let display=currentPair==='BTCUSD'||currentPair==='XAUUSD'?'$'+basePrice.toFixed(2):'$'+basePrice.toFixed(4);
+document.getElementById('price').innerText=display;
+let ch=(Math.random()-0.5)*0.8;let chEl=document.getElementById('change');chEl.innerText=(ch>0?'+':'')+ch.toFixed(2)+'%';chEl.className=ch>0?'change up':'change down';
+document.getElementById('time').innerText='Updated '+new Date().toLocaleTimeString();
+},2000);
+loadTV('OANDA:XAUUSD');generateSignal();
+</script>
+</body>
+</html>
