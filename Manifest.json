@@ -1,0 +1,16 @@
+{
+  "name": "Forex AI Pro - SA",
+  "short_name": "ForexAI",
+  "description": "Professional Forex AI trading signals for South Africa",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070a10",
+  "theme_color": "#070a10",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2620/2620973.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
