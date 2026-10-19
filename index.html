@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forex AI</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0e14;color:#e6e8eb;font-family:sans-serif}header{padding:16px;background:#11161f;display:flex;justify-content:space-between}.logo{font-weight:800;color:#2ea043}.card{background:#151b26;border:1px solid #1f2a38;border-radius:14px;padding:16px;margin:14px}.price{font-size:32px;font-weight:800}.signal{font-size:48px;font-weight:900;text-align:center;padding:20px}.buy{color:#2ea043}.sell{color:#f85149}</style>
+</head>
+<body>
+<header><div class="logo">⚡ FOREX AI</div><div style="background:#2ea043;padding:4px 10px;border-radius:20px;font-size:12px">LIVE XAU/USD</div></header>
+<div class="card"><div>GOLD PRICE</div><div class="price" id="p">$2652.34</div><div id="t">Live updating...</div></div>
+<div class="card"><div style="text-align:center">AI SIGNAL</div><div class="signal buy" id="s">BUY</div><div style="display:flex;justify-content:space-around;text-align:center"><div>Confidence<div id="c" style="font-weight:700">87%</div></div><div>Trend<div style="font-weight:700">BULLISH</div></div></div></div>
+<script>let b=2652.34;setInterval(()=>{b+=(Math.random()-.5)*2;document.getElementById('p').innerText='$'+b.toFixed(2);let isBuy=Math.random()>.3;let el=document.getElementById('s');el.innerText=isBuy?'BUY':'SELL';el.className=isBuy?'signal buy':'signal sell';document.getElementById('c').innerText=Math.floor(75+Math.random()*20)+'%';document.getElementById('t').innerText='Updated '+new Date().toLocaleTimeString()},2000)</script>
+</body>
+</html>
