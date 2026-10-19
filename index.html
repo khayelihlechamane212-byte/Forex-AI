@@ -3,4 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>
+<title>Forex AI Pro</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#070a10;color:#e6e8eb;font-family:sans-serif}
+header{position:sticky;top:0;z-index:10;background:#11161f;border-bottom:1px solid #1f2a38;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:900;color:#2ea043;display:flex;gap:8px}
+.live-dot{width:8px;height:8px;background:#2ea043;border-radius:50%;}
+.badge{background:#2ea043;color:#fff;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.container{max-width:480px;margin:0 auto}
+.card{background:#151b26;border:1px solid #1f2a38;border-radius:16px;padding:18px;margin:14px}
+.price{font-size:38px;font-weight:900}
+.change{padding:4px 8px;border-radius:8px;font-size:12px;font-weight:700}
+.up{background:rgba(46,160,67,.15);color:#2ea043}
+.down{background:rgba(248,81,73,.15);color:#f85149}
+.signal{font-size:56px;font-weight:950;margin:10px 0;text-align:center}
+.buy{color:#2ea043}.sell{color:#f85149}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+.stat{background:#0d121c;border:1px solid #1c2636;border-radius:12px;padding:12px;text-align:center}
+.stat-label{font-size:10px;color:#8b949e;margin-bottom:4px}
+.stat-val{font-size:15px;font-weight:800}
+.chart-wrap{height:320px;border-radius:12px;overflow:hidden;background:#0d121c;border:1px solid #1c2636;margin-top:12px}
+.pairs{display:flex;gap:8px;overflow-x:auto;padding:10px 14px}
+.pair{white-space:nowrap;padding:8px 14px;border-radius:20px;background:#151b26;border:1px solid #1f2a38;font-size:12px;font-weight:600;cursor:pointer}
+.pair.active{background:#2ea043;color:white}
+.btn{width:100%;padding:14px;background:#2ea043;color:white;border:none;border-radius:12px;font-weight:800;margin-top:14px;cursor:pointer}
+</style>
+</head>
+<body>
+<header><div class="logo"><div class="live-dot"></div> FOREX AI PRO</div><div class="badge" id="liveBadge">LIVE X
