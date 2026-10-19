@@ -85,7 +85,7 @@ let isBuy=Math.random()>0.38;let conf=Math.floor(78+Math.random()*17);let rsi=(4
 let trend=isBuy?(rsi>60?'STRONG BULLISH':'BULLISH'):(rsi<45?'STRONG BEARISH':'BEARISH');
 let el=document.getElementById('signal');el.innerText=isBuy?'BUY':'SELL';el.className=isBuy?'signal buy':'signal sell';
 document.getElementById('conf').innerText=conf+'%';document.getElementById('confBar').style.width=conf+'%';
-document.getElementById('trend').innerText=trend;document.getElementById('rsi').innerText=rssi;
+document.getElementById('trend').innerText=trend;document.getElementById('rsi').innerText=rsi;
 document.getElementById('sup').innerText='$'+(basePrice*0.997).toFixed(currentPair==='XAUUSD'?0:4);
 document.getElementById('res').innerText='$'+(basePrice*1.006).toFixed(currentPair==='XAUUSD'?0:4);
 }
